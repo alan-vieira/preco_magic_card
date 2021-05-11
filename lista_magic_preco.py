@@ -37,8 +37,8 @@ for i in range(len(df["nome_portugues"])):
 
     # pegar o valor médio da carta
     valor_medio_srt = driver.find_element_by_xpath("//*[@id='precos-medio']").text
-    nome = driver.find_element_by_xpath("/html/body/main/div[4]/div[1]/div/div[4]/div[1]/div[1]/p[1]").text
-    edicao = driver.find_element_by_xpath("/html/body/main/div[4]/div[1]/div/div[4]/div[4]/div[1]/p/font/a").text
+    nome = driver.find_element_by_xpath("/html/body/main/div[2]/div[1]/div/div[4]/div[1]/div[1]/p[1]").text
+    edicao = driver.find_element_by_xpath("/html/body/main/div[2]/div[1]/div/div[4]/div[4]/div[1]/p/font/a").text
 
     # converssão do valor médio de string para ponto flutuante
 
