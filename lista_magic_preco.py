@@ -10,7 +10,7 @@ valor_final_lista = []
 carta_dic = {}
 
 # leitura do arquivo excel
-df = pd.read_excel('c:/Users/Alan/Documents/magic/Magic_ML.xlsx')
+df = pd.read_excel('excel/Magic_ML.xlsx')
 # print(data["nome_portugues"][0], data["xpath"][0])
 
 # abrindo o site
@@ -72,7 +72,7 @@ df2 = pd.DataFrame(carta_dic, columns=['Nome', 'Edicao', 'Valor medio', 'Valor f
 print(df2)
 
 # criação do arquivo excel
-escrever = pd.ExcelWriter('c:/Users/Alan/Documents/magic/saida.xlsx', engine='xlsxwriter')
+escrever = pd.ExcelWriter('excel/saida.xlsx', engine='xlsxwriter')
 # conversão do dataframe para excel
 df2.to_excel(escrever, sheet_name='Plan1', index=False)
 # fechamento do arquivo excel
