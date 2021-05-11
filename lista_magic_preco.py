@@ -43,7 +43,7 @@ for i in range(len(df["nome_portugues"])):
     edicao = driver.find_element_by_xpath(
         "/html/body/main/div[4]/div[1]/div/div[4]/div[4]/div[1]/p/font/a").text
 
-    # converssão do valor médio de string para ponto flutuante
+    # conversão do valor médio de string para ponto flutuante
 
     # separa o R$ da string, pega a parte numérica,
     # troca a vírgula por ponto e convert o resultado em ponto flutuante
@@ -75,7 +75,7 @@ df2 = pd.DataFrame(carta_dic, columns=['Nome', 'Edicao', 'Valor medio', 'Valor f
 print(df2)
 
 # criação do arquivo excel
-escrever = pd.ExcelWriter('excel/saida.xlsx', engine='xlsxwriter')
+escrever = pd.ExcelWriter('c:/Users/Alan/Documents/magic/saida.xlsx', engine='xlsxwriter')
 # conversão do dataframe para excel
 df2.to_excel(escrever, sheet_name='Plan1', index=False)
 # fechamento do arquivo excel
