@@ -29,16 +29,19 @@ for i in range(len(df["nome_portugues"])):
 
     # tem duas cartas?
     if df["busca_carta"][i] == 2:
-        carta = driver.find_element_by_xpath("/html/body/main/div[2]/div[4]/div/div[1]/div/div[1]/a").click()
+        carta = driver.find_element_by_xpath(df["escolhe_carta"][i]).click()
 
     # selecionar a edição
     edicao_menu = driver.find_element_by_xpath(df["xpath"][i])
     action.move_to_element(edicao_menu).click().perform()
 
     # pegar o valor médio da carta
-    valor_medio_srt = driver.find_element_by_xpath("//*[@id='precos-medio']").text
-    nome = driver.find_element_by_xpath("/html/body/main/div[2]/div[1]/div/div[4]/div[1]/div[1]/p[1]").text
-    edicao = driver.find_element_by_xpath("/html/body/main/div[2]/div[1]/div/div[4]/div[4]/div[1]/p/font/a").text
+    valor_medio_srt = driver.find_element_by_xpath(
+        "/html/body/main/div[4]/div[1]/div/div[4]/div[5]/div[2]/div/div[4]").text
+    nome = driver.find_element_by_xpath(
+        "/html/body/main/div[4]/div[1]/div/div[4]/div[1]/div[1]/p[1]").text
+    edicao = driver.find_element_by_xpath(
+        "/html/body/main/div[4]/div[1]/div/div[4]/div[4]/div[1]/p/font/a").text
 
     # converssão do valor médio de string para ponto flutuante
 
