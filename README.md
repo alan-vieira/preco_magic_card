@@ -7,6 +7,6 @@ Por meio de uma lista, em Excel, fornecida pelo usuário a aplicação navega, s
 
 ## Aplicação
 
-[![Magic Preço Médio]](https://youtu.be/peFd9ntvmXQ "Magic Preço Médio")
+[![Magic Preço Médio](http://i.imgur.com/Ot5DWAW.png)](https://youtu.be/peFd9ntvmXQ "Magic Preço Médio")
 
 ## Ferramentas utilizadas
