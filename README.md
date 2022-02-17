@@ -1,2 +1,9 @@
 # Magic Preço Médio
-Web Scraping para obtenção do preço médio das cartas do jogo Magic, e posteriormente calculo de porcentagem do Mercado Livre.
+## Descrição do projeto
+Projeto de mineração de dados (web scraping) para obtenção do preço médio das cartas do jogo Magic, no site ligamagic.com.
+
+## Funcionalidades
+
+## Aplicação
+
+## Ferramentas utilizadas
