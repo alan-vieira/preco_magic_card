@@ -7,6 +7,6 @@ Por meio de uma lista, em Excel, fornecida pelo usuário a aplicação navega, s
 
 ## Aplicação
 
-![Magic Preço Médio](./gif_rapido.gif)
+![Magic Preço Médio](./img/gif_rapido.gif)
 
 ## Ferramentas utilizadas
