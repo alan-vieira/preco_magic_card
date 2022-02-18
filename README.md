@@ -35,3 +35,5 @@ E para complementar, o arquivo [chromedriver](https://chromedriver.chromium.org/
 
 Obs.: O chromedriver deve ser escolhido de acordo com a versão do seu navegador.
 
+Para rodar o projeto, depois das instalações necessárias, precisamos colocar na pasta excel o aquivo 
+
