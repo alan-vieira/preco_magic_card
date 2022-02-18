@@ -31,6 +31,7 @@ Após baixado, para o funcionamento correto da aplicação as seguintes dependê
 - `NoSuchElementException`
 - `Openpyxl`
 
-E para complementar, o arquivo [chromedriver](https://chromedriver.chromium.org/downloads) dever ser baixado e instalado na raiz do seu sistema operacional.
-Obs.: O chromedriver dever ser escolhido de acordo com a versão do seu navegador.
+E para complementar, o arquivo [chromedriver](https://chromedriver.chromium.org/downloads) deve ser baixado e instalado na raiz do seu sistema operacional.
+
+Obs.: O chromedriver deve ser escolhido de acordo com a versão do seu navegador.
 
