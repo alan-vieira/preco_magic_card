@@ -15,10 +15,22 @@ Projeto de mineração de dados (web scraping), para extração do preço médio
 ## Ferramentas utilizadas
 - `Python`
 - `Selenium`
-- `Webdriver`
 
 ## Acesso ao projeto
 
 Você pode acessar o [código fonte do projeto](https://github.com/alan-vieira/preco_magic_card/blob/master/lista_magic_preco.py) ou [baixá-lo](https://github.com/alan-vieira/preco_magic_card/archive/refs/heads/master.zip).
 
 ## Abrir e rodar o projeto
+Após baixado, para o funcionamento correto da aplicação as seguintes dependêcias deverão ser instaladas.
+
+- `Pandas`
+- `Selenium`
+- `WebDriver`
+- `ActionChains`
+- `By`
+- `NoSuchElementException`
+- `Openpyxl`
+
+E para complementar, o arquivo [chromedriver](https://chromedriver.chromium.org/downloads) dever ser baixado e instalado na raiz do seu sistema operacional.
+Obs.: O chromedriver dever ser escolhido de acordo com a versão do seu navegador.
+
