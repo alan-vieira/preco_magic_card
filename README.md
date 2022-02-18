@@ -31,9 +31,13 @@ Após baixado, para o funcionamento correto da aplicação as seguintes dependê
 - `NoSuchElementException`
 - `Openpyxl`
 
-E para complementar, o arquivo [chromedriver](https://chromedriver.chromium.org/downloads) deve ser baixado e instalado na raiz do seu sistema operacional.
+E para complementar, o arquivo [chromedriver](https://chromedriver.chromium.org/downloads) deve ser baixado e instalado na raiz do seu sistema operacional. Obs.: O chromedriver deve ser escolhido de acordo com a versão do seu navegador.
 
-Obs.: O chromedriver deve ser escolhido de acordo com a versão do seu navegador.
+Para rodar o projeto, depois das instalações necessárias, precisamos criar e colocar na pasta excel o aquivo lista_cartas_magic_com_edicao.xlsx que contém o seguinte formato.
 
-Para rodar o projeto, depois das instalações necessárias, precisamos colocar na pasta excel o aquivo 
+![Arquivo Excel de Entrada](./img/lista_cartas.JPG)
+
+E após a execução do programa o seguinte arquivo excel (saída) devera ser aguardo da mesma pasta.
+
+![Aquivo Excel de Saída](./img/saida_cartas.JPG)
 
