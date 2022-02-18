@@ -43,5 +43,5 @@ E após a execução do programa o seguinte arquivo excel (saída) devera ser ag
 
 ## Autor
 
-| [<img src="" width=115><br><sub>Alan Vieira</sub>](https://github.com/alan-vieira) |
+| [<img src="https://avatars.githubusercontent.com/alan-vieira" width=115><br><sub>Alan Vieira</sub>](https://github.com/alan-vieira) |
 | :---: |
