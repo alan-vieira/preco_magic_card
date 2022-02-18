@@ -7,7 +7,6 @@ Projeto de mineração de dados (web scraping), para extração do preço médio
 - `Funcionalidade 1`: captura do preço médio no site ligamagic.com
 - `Funcionalidade 2`: cálculo do percentual da comição do Mercado Livre
 - `Funcionalidade 2`: geração da planilha Excel de saída com as colunas: nome em portugues, nome em ingles, edicao, artista, raridade, valor medio, valor do mercado livre.
-- `Funcionalidade 3`: descrição da funcionalidade 3  
 
 ## Aplicação
 
