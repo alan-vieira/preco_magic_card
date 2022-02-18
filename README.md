@@ -41,3 +41,7 @@ E após a execução do programa o seguinte arquivo excel (saída) devera ser ag
 
 ![Aquivo Excel de Saída](./img/saida_cartas.JPG)
 
+## Autor
+
+| [<img src="" width=115><br><sub>Alan Vieira</sub>](https://github.com/alan-vieira) |
+| :---: |
