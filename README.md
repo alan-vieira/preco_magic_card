@@ -33,7 +33,7 @@ Após baixado, para o funcionamento correto da aplicação as seguintes dependê
 
 E para complementar, o arquivo [chromedriver](https://chromedriver.chromium.org/downloads) deve ser baixado e instalado na raiz do seu sistema operacional. Obs.: O chromedriver deve ser escolhido de acordo com a versão do seu navegador.
 
-Para rodar o projeto, depois das instalações necessárias, precisamos criar e colocar na pasta excel o aquivo lista_cartas_magic_com_edicao.xlsx que contém o seguinte formato.
+Para rodar o projeto, depois das instalações necessárias, precisamos criar e colocar na pasta excel (também deverá ser criada) o aquivo lista_cartas_magic_com_edicao.xlsx que contém o seguinte formato.
 
 ![Arquivo Excel de Entrada](./img/lista_cartas.JPG)
 
