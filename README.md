@@ -7,6 +7,6 @@ Por meio de uma lista, em Excel, fornecida pelo usuário a aplicação navega, s
 
 ## Aplicação
 
-![Magic Preço Médio](https://github.com/alan-vieira/preco_magic_card/tree/master/img/vlcsnap-2022-02-17-20h28m32s539.png)
+![Magic Preço Médio](./gif_rapido.gif)
 
 ## Ferramentas utilizadas
