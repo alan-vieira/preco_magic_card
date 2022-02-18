@@ -15,3 +15,4 @@ Projeto de mineração de dados (web scraping), para extração do preço médio
 ## Ferramentas utilizadas
 - `Python`
 - `Selenium`
+- `Webdriver`
