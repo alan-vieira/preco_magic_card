@@ -1,6 +1,6 @@
 # Magic Preço Médio
 ## Descrição do projeto
-Projeto de mineração de dados (web scraping), para extração do preço médio das cartas do jogo Magic no site ligamagic.com. Para porteriormente compor o preço de venda no Mercado Livre. 
+Projeto de mineração de dados (web scraping), para extração do preço médio das cartas do jogo Magic no site ligamagic.com. Para posteriormente compor o preço de venda no Mercado Livre. 
 
 ## Funcionalidades do projeto
 
