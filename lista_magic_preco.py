@@ -1,11 +1,12 @@
-# busca o preço médio de todas as edições das cartas informada na lista
-
 import time
 from random import randint
 from time import sleep
 
 import pandas as pd
+
 from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.service import Service
 from selenium.common.exceptions import *
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
@@ -26,7 +27,8 @@ cartas_web_dic = {}
 minhas_cartas_df = pd.read_excel('excel/lista_cartas_magic_com_edicao.xlsx')
 
 # eliminar as duplicatas da lista e salvar em um novo dataframe
-cartas_unica_df = minhas_cartas_df.drop_duplicates(subset='nome_portugues', keep="first").reset_index(drop=True)
+cartas_unica_df = minhas_cartas_df.drop_duplicates(
+    subset='nome_portugues', keep="first").reset_index(drop=True)
 
 # algumas configurações para o webdriver
 chrome_options = webdriver.ChromeOptions()
@@ -42,12 +44,13 @@ chrome_options.add_argument('--no-sandbox')
 chrome_options.add_argument('--ignore-certificate-errors')
 
 # abrindo o site
-driver = webdriver.Chrome(executable_path='c:/chromedriver.exe', options=chrome_options)
+service = Service(ChromeDriverManager().install())
+driver = webdriver.Chrome(service=service, options=chrome_options)
 
 # efetuando busca no site
 for i in range(len(minhas_cartas_df["nome_portugues"])):
-    driver.get("https://www.ligamagic.com/?view=cards/card&card=%s&aux=%s"
-               % (minhas_cartas_df["nome_ingles"][i], minhas_cartas_df["nome_portugues"][i]))
+    driver.get("https://www.ligamagic.com/?view=cards/card&card=%s&aux=%s" %
+               (minhas_cartas_df["nome_ingles"][i], minhas_cartas_df["nome_portugues"][i]))
     sleep(randint(2, 4))
 
     action = ActionChains(driver)
@@ -57,7 +60,8 @@ for i in range(len(minhas_cartas_df["nome_portugues"])):
 
     while True:
         try:
-            edicao_menu = driver.find_element(By.CSS_SELECTOR, "#edcard_%i > img:nth-child(1)" % edcard)
+            edicao_menu = driver.find_element(
+                By.CSS_SELECTOR, "#edcard_%i > img:nth-child(1)" % edcard)
             action.move_to_element(edicao_menu).click().perform()
 
         except NoSuchElementException:
@@ -70,8 +74,10 @@ for i in range(len(minhas_cartas_df["nome_portugues"])):
         nome_ingles = cartas_unica_df["nome_ingles"][i]
         edicao = driver.find_element(By.XPATH, '//*[@id="ed-nome"]/a').text
         artista = driver.find_element(By.XPATH, '//*[@id="ed-artista"]/a').text
-        raridade = driver.find_element(By.XPATH, '//*[@id="ed-raridade"]/a').text
-        valor_medio_srt = driver.find_element(By.XPATH, '//*[@id="card-info"]/div[5]/div[2]/div/div[4]').text
+        raridade = driver.find_element(
+            By.XPATH, '//*[@id="ed-raridade"]/a').text
+        valor_medio_srt = driver.find_element(
+            By.XPATH, '//*[@id="card-info"]/div[5]/div[2]/div/div[4]').text
 
         # converssão do valor médio de string para ponto flutuante #
         # separa o R$ da string, pega a parte numérica,
@@ -102,19 +108,21 @@ for i in range(len(minhas_cartas_df["nome_portugues"])):
         valor_ml_lista.append(valor_ml)
 
 # criação do dicionário
-cartas_web_dic = {'nome_portugues': nome_portugues_lista,
-                  'nome_ingles': nome_ingles_lista,
-                  'edicao': edicao_lista,
-                  'artista': artista_lista,
-                  'raridade': raridade_lista,
-                  'valor_medio': valor_medio_lista,
-                  'valor_ml': valor_ml_lista}
+cartas_web_dic = {
+    'nome_portugues': nome_portugues_lista,
+    'nome_ingles': nome_ingles_lista,
+    'edicao': edicao_lista,
+    'artista': artista_lista,
+    'raridade': raridade_lista,
+    'valor_medio': valor_medio_lista,
+    'valor_ml': valor_ml_lista}
 
 # criação do dataframe
 cartas_web_df = pd.DataFrame().from_dict(cartas_web_dic)
 
 # interseção das duas tabelas
-cartas_final_df = pd.merge(minhas_cartas_df, cartas_web_df, how='left', on=('nome_portugues', 'nome_ingles', 'edicao'))
+cartas_final_df = pd.merge(minhas_cartas_df, cartas_web_df, how='left', on=(
+    'nome_portugues', 'nome_ingles', 'edicao'))
 
 # teste se deu tudo certo
 if len(minhas_cartas_df["nome_portugues"]) == len(cartas_final_df["nome_portugues"]):
