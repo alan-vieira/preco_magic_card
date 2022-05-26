@@ -25,13 +25,14 @@ Após baixado, para o funcionamento correto da aplicação as seguintes dependê
 
 - `Pandas`
 - `Selenium`
+- `Webdriver_manager`
 - `WebDriver`
 - `ActionChains`
 - `By`
 - `NoSuchElementException`
 - `Openpyxl`
 
-E para complementar, o arquivo [chromedriver](https://chromedriver.chromium.org/downloads) deve ser baixado e instalado na raiz do seu sistema operacional. Obs.: O chromedriver deve ser escolhido de acordo com a versão do seu navegador.
+Obs.: Com a intalação do webdriver_manager o arquivo chromedriver passa a ser instalado de forma altonoma, sem a necessidade de verificação da versão do navegador.
 
 Para rodar o projeto, depois das instalações necessárias, precisamos criar e colocar na pasta excel (também deverá ser criada) o aquivo lista_cartas_magic_com_edicao.xlsx que contém o seguinte formato.
 
