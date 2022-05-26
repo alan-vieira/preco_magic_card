@@ -23,16 +23,16 @@ Você pode acessar o [código fonte do projeto](https://github.com/alan-vieira/p
 ## Abrir e rodar o projeto
 Após baixado, para o funcionamento correto da aplicação as seguintes dependêcias deverão ser instaladas.
 
-- `Pandas`
-- `Selenium`
-- `Webdriver_manager`
-- `WebDriver`
+- `pandas`
+- `selenium`
+- `webdriver-manager`
+- `webDriver`
 - `ActionChains`
 - `By`
 - `NoSuchElementException`
-- `Openpyxl`
+- `openpyxl`
 
-Obs.: Com a intalação do webdriver_manager o arquivo chromedriver passa a ser instalado de forma altonoma, sem a necessidade de verificação da versão do navegador.
+Obs.: Com a intalação do webdriver-manager o arquivo chromedriver passa a ser instalado de forma altonoma, sem a necessidade de verificação da versão do navegador.
 
 Para rodar o projeto, depois das instalações necessárias, precisamos criar e colocar na pasta excel (também deverá ser criada) o aquivo lista_cartas_magic_com_edicao.xlsx que contém o seguinte formato.
 
