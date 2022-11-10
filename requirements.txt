@@ -1,0 +1,8 @@
+autopep8
+matplotlib-inline
+numpy
+openpyxl
+packaging
+pandas
+selenium
+webdriver-manager
