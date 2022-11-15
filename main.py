@@ -42,16 +42,9 @@ service = Service(ChromeDriverManager().install())
 driver = webdriver.Chrome(service=service, options=chrome_options)
 
 
-nome_portugues_lista = []
-nome_ingles_lista = []
-edicao_lista = []
-artista_lista = []
-raridade_lista = []
-valor_medio_srt_lista = []
-
+# efetuando busca no site
 cartas_web_dic = []
 
-# efetuando busca no site
 for portugues, ingles in zip(cartas_df['nome_portugues'], cartas_df['nome_ingles']):
 
     driver.get(
@@ -104,7 +97,7 @@ cartas_web_df = pd.DataFrame().from_dict(cartas_web_dic)
 
 
 # fechando o site
-time.sleep(10)
+time.sleep(5)
 driver.close()
 
 
