@@ -54,7 +54,8 @@ cartas_web_dic = []
 # efetuando busca no site
 for portugues, ingles in zip(cartas_df['nome_portugues'], cartas_df['nome_ingles']):
 
-    driver.get(f"https://www.ligamagic.com/?view=cards/card&card={portugues}&aux={ingles}")
+    driver.get(
+        f"https://www.ligamagic.com/?view=cards/card&card={portugues}&aux={ingles}")
 
     sleep(randint(2, 4))
 
@@ -121,11 +122,14 @@ cartas_web_df['valor_medio'] = list(
 
 # calculando a comissão do mercado livre
 def comissao_ml(valor_medio) -> int:
-    '''calculo de porcentagem (ml) e valor final do produto'''
+    ''' calculo de porcentagem (ml) e valor final do produto:
+        - valores maiores ou iguais a R$ 79,00 a comissão do ML é de 11,5%
+        - valores menores que R$ 79,00 a comissão do ML é de 11,5% + R$ 5,00
+    '''
     if valor_medio >= 79:
-        porcentagem_ml = ((12 / 100) * valor_medio)
+        porcentagem_ml = (0.115 * valor_medio)
     else:
-        porcentagem_ml = ((12 / 100) * valor_medio) + 5
+        porcentagem_ml = (0.115 * valor_medio) + 5
 
     valor_ml = round((porcentagem_ml + valor_medio), 2)
 
