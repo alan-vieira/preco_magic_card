@@ -18,7 +18,7 @@ Projeto de mineração de dados (web scraping), para extração do preço médio
 
 ## Acesso ao projeto
 
-Você pode acessar o [código fonte do projeto](https://github.com/alan-vieira/preco_magic_card/blob/master/lista_magic_preco.py) ou [baixá-lo](https://github.com/alan-vieira/preco_magic_card/archive/refs/heads/master.zip).
+Você pode acessar o [código fonte do projeto](https://github.com/alan-vieira/preco_magic_card/blob/master/main.py) ou [baixá-lo](https://github.com/alan-vieira/preco_magic_card/archive/refs/heads/master.zip).
 
 ## Abrir e rodar o projeto
 Após baixado, para o funcionamento correto da aplicação as seguintes dependêcias deverão ser instaladas.
@@ -32,7 +32,7 @@ Após baixado, para o funcionamento correto da aplicação as seguintes dependê
 - `NoSuchElementException`
 - `openpyxl`
 
-Obs.: Com a intalação do webdriver-manager o arquivo chromedriver passa a ser instalado de forma altonoma, sem a necessidade de verificação da versão do navegador.
+Obs.: Com a intalação do webdriver-manager o arquivo chromedriver passa a ser instalado de forma autônoma, sem a necessidade de verificação da versão do navegador.
 
 Para rodar o projeto, depois das instalações necessárias, precisamos criar e colocar na pasta excel (também deverá ser criada) o aquivo lista_cartas_magic_com_edicao.xlsx que contém o seguinte formato.
 
