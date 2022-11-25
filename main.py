@@ -54,7 +54,7 @@ for portugues, ingles in zip(cartas_df['nome_portugues'], cartas_df['nome_ingles
 
     action = ActionChains(driver)
 
-    # selecionar a edição
+    # selecionando a edição
     edcard = 0
 
     while True:
@@ -68,7 +68,7 @@ for portugues, ingles in zip(cartas_df['nome_portugues'], cartas_df['nome_ingles
         else:
             edcard += 1
 
-        # pegar o valor médio da carta
+        # pegando algumas características das cartas
         nome_portugues = portugues
         nome_ingles = ingles
         edicao = driver.find_element(By.XPATH, '//*[@id="ed-nome"]/a').text
@@ -78,10 +78,10 @@ for portugues, ingles in zip(cartas_df['nome_portugues'], cartas_df['nome_ingles
         valor_medio_srt = driver.find_element(
             By.XPATH, '//*[@id="card-info"]/div[5]/div[2]/div/div[4]').text
 
-        # exibir nome e edição
+        # exibindo nome (português e inglês), edição, artista, raridade e o valor médio
         print(f"{edcard}. {nome_portugues} | {nome_ingles} | {edicao} | {artista} | {raridade} | {valor_medio_srt}")
 
-        # criação do dicionário
+        # criando o dicionário
         cartas_web_dic.append({
             'nome_portugues': nome_portugues,
             'nome_ingles': nome_ingles,
@@ -92,7 +92,7 @@ for portugues, ingles in zip(cartas_df['nome_portugues'], cartas_df['nome_ingles
         })
 
 
-# corversão do dicionário para dataframe
+# convertendo o dicionário para dataframe
 cartas_web_df = pd.DataFrame().from_dict(cartas_web_dic)
 
 
@@ -115,9 +115,10 @@ cartas_web_df['valor_medio'] = list(
 
 # calculando a comissão do mercado livre
 def comissao_ml(valor_medio) -> int:
-    ''' calculo de porcentagem (ml) e valor final do produto:
-        - valores maiores ou iguais a R$ 79,00 a comissão do ML é de 11,5%
-        - valores menores que R$ 79,00 a comissão do ML é de 11,5% + R$ 5,00
+    '''
+    calculo de porcentagem (ml) e valor final do produto:
+    - valores maiores ou iguais a R$ 79,00 a comissão do ML é de 11,5%
+    - valores menores que R$ 79,00 a comissão do ML é de 11,5% + R$ 5,00
     '''
     if valor_medio >= 79:
         porcentagem_ml = (0.115 * valor_medio)
@@ -147,6 +148,6 @@ else:
     print('Deu errado!')
 
 
-# geração do arquivo final
+# gerando o arquivo final
 cartas_final_df.to_excel("excel/cartas_magic_output.xlsx")
 print(cartas_final_df)
