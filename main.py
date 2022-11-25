@@ -136,7 +136,7 @@ cartas_web_df['valor_ml'] = list(
         cartas_web_df['valor_medio']))
 
 
-# interseção das duas tabelas (para retornar apenas as edições de interece)
+# interseção das duas tabelas (para retornar apenas as edições de interesse)
 cartas_final_df = pd.merge(cartas_df, cartas_web_df, how='left', on=(
     'nome_portugues', 'nome_ingles', 'edicao'))
 
