@@ -18,7 +18,7 @@ Projeto de mineração de dados (web scraping), para extração do preço médio
 
 ## Acesso ao projeto
 
-Você pode acessar o [código fonte do projeto](https://github.com/alan-vieira/preco_magic_card/blob/master/main.py) ou [baixá-lo](https://github.com/alan-vieira/preco_magic_card/archive/refs/heads/master.zip).
+Você pode acessar o [código fonte do projeto](https://github.com/alan-vieira/preco_magic_card/blob/master/magic_preco_medio.py) ou [baixá-lo](https://github.com/alan-vieira/preco_magic_card/archive/refs/heads/master.zip).
 
 ## Abrir e rodar o projeto
 Após baixado, para o funcionamento correto da aplicação as seguintes dependêcias deverão ser instaladas.
