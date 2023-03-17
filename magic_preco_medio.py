@@ -13,14 +13,12 @@ from selenium.common.exceptions import *
 
 from webdriver_manager.chrome import ChromeDriverManager
 
-
-# transformando o arquivo excel em dataframe
+# leitura do arquivo excel
 cartas_df = pd.read_excel('excel/lista_cartas_magic_com_edicao.xlsx')
 
-# eliminando as duplicatas (cartas com o mesmo nome e edições diferentes)
+# eliminar as duplicatas da lista e salvar em um novo dataframe
 cartas_df = cartas_df.drop_duplicates(
     subset='nome_portugues', keep="first").reset_index(drop=True)
-
 
 # algumas configurações para o webdriver
 chrome_options = webdriver.ChromeOptions()
@@ -35,34 +33,36 @@ chrome_options.add_argument('--disable-dev-shm-usage')
 chrome_options.add_argument('--no-sandbox')
 chrome_options.add_argument('--ignore-certificate-errors')
 
-# instanciando a versão do webdriver que será instalada na máquina local
+# abrindo o site
 service = Service(ChromeDriverManager().install())
-
-# instanciando o webdriver
 driver = webdriver.Chrome(service=service, options=chrome_options)
 
+nome_portugues_lista = []
+nome_ingles_lista = []
+edicao_lista = []
+artista_lista = []
+raridade_lista = []
+valor_medio_srt_lista = []
 
-# efetuando busca no site
 cartas_web_dic = []
 
-for portugues, ingles in zip(cartas_df['nome_portugues'],
-                                cartas_df['nome_ingles']):
+# efetuando busca no site
+for portugues, ingles in zip(cartas_df['nome_portugues'], cartas_df['nome_ingles']):
 
-    driver.get(
-        f"https://www.ligamagic.com/?view=cards/card&card= \
-            {portugues}&aux={ingles}")
+    driver.get("https://www.ligamagic.com/?view=cards/card&card=%s&aux=%s" %
+            (portugues, ingles))
 
     sleep(randint(2, 4))
 
     action = ActionChains(driver)
 
-    # selecionando a edição
+    # selecionar a edição
     edcard = 0
 
     while True:
         try:
             edicao_menu = driver.find_element(
-                By.CSS_SELECTOR, f"#edcard_{edcard}> img:nth-child(1)")
+                By.CSS_SELECTOR, "#edcard_%i > img:nth-child(1)" % edcard)
             action.move_to_element(edicao_menu).click().perform()
 
         except NoSuchElementException:
@@ -70,7 +70,7 @@ for portugues, ingles in zip(cartas_df['nome_portugues'],
         else:
             edcard += 1
 
-        # pegando algumas características das cartas
+        # pegar o valor médio da carta
         nome_portugues = portugues
         nome_ingles = ingles
         edicao = driver.find_element(By.XPATH, '//*[@id="ed-nome"]/a').text
@@ -80,75 +80,51 @@ for portugues, ingles in zip(cartas_df['nome_portugues'],
         valor_medio_srt = driver.find_element(
             By.XPATH, '//*[@id="card-info"]/div[5]/div[2]/div/div[4]').text
 
-        # exibindo nome (português e inglês), edição, artista, raridade e o \
-        # valor médio
-        print(f"{edcard}. {nome_portugues} | {nome_ingles} | {edicao} | \
-            {artista} | {raridade} | {valor_medio_srt}")
+        # conversão do valor médio de string para ponto flutuante #
+        # separa o R$ da string, pega a parte numérica,
+        # troca a vírgula por ponto e convert o resultado em ponto flutuante
+        valor_medio = valor_medio_srt.split(" ")[1].replace(".", "").replace(",", ".")
+        valor_medio = float(valor_medio)
 
-        # criando o dicionário
+        # calculo de porcentagem (ml) e valor final do produto
+        if valor_medio >= 79:
+            porcentagem_ml = ((12 / 100) * valor_medio)
+        else:
+            porcentagem_ml = ((12 / 100) * valor_medio) + 5
+
+        valor_ml = round((porcentagem_ml + valor_medio), 2)
+
+        # exibir nome e edição
+        print(f"{edcard}. {nome_portugues} | {nome_ingles} | {edicao} | {artista} | {raridade} | {valor_medio}")
+
+        # criação do dicionário
         cartas_web_dic.append({
             'nome_portugues': nome_portugues,
             'nome_ingles': nome_ingles,
             'edicao': edicao,
             'artista': artista,
             'raridade': raridade,
-            'valor_medio_srt': valor_medio_srt
+            'valor_medio': valor_medio,
+            'valor_ml': valor_ml
         })
 
-
-# convertendo o dicionário para dataframe
+# criação do dataframe
 cartas_web_df = pd.DataFrame().from_dict(cartas_web_dic)
 
-
-# fechando o site
-time.sleep(5)
-driver.close()
-
-
-# transformando o valor médio string para float
-cartas_web_df['valor_medio'] = list(
-    map(lambda x: x.split(" ")[1].replace(".", "").replace(",", "."),
-        cartas_web_df['valor_medio_srt']))
-
-cartas_web_df['valor_medio'] = list(
-    map(lambda x: float(x),
-        cartas_web_df['valor_medio']))
-
-
-# calculando a comissão do mercado livre
-def comissao_ml(valor_medio) -> int:
-    '''
-    calculo de porcentagem (ml) e valor final do produto:
-    - valores maiores ou iguais a R$ 79,00 a comissão do ML é de 11,5%
-    - valores menores que R$ 79,00 a comissão do ML é de 11,5% + R$ 5,00
-    '''
-    if valor_medio >= 79:
-        porcentagem_ml = (0.115 * valor_medio)
-    else:
-        porcentagem_ml = (0.115 * valor_medio) + 5
-
-    valor_ml = round((porcentagem_ml + valor_medio), 2)
-
-    return valor_ml
-
-
-cartas_web_df['valor_ml'] = list(
-    map(lambda x: comissao_ml(x),
-        cartas_web_df['valor_medio']))
-
-
-# interseção das duas tabelas (para retornar apenas as edições de interesse)
+# interseção das duas tabelas
 cartas_final_df = pd.merge(cartas_df, cartas_web_df, how='left', on=(
     'nome_portugues', 'nome_ingles', 'edicao'))
 
-
-# teste para saber se foi realmente retoranda a lista desejada
+# teste se deu tudo certo
 if len(cartas_df["nome_portugues"]) == len(cartas_final_df["nome_portugues"]):
     print('Ok!')
 else:
     print('Deu errado!')
 
-
-# gerando o arquivo final
+# geração do arquivo final
 cartas_final_df.to_excel("excel/cartas_magic_output.xlsx")
 print(cartas_final_df)
+
+# fechando o site
+time.sleep(10)
+driver.close()
