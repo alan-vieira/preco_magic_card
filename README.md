@@ -48,6 +48,8 @@ python magic_preco_medio.py
 
 ![Magic Preço Médio](./img/gif_rapido.gif)
 
+## 👤 Autor
+
 **Alan Vieira** - *Engenheiro de Telecomunicações & Especialista em Dados*
 
 - [LinkedIn](https://www.linkedin.com/in/alansilvavieira)
