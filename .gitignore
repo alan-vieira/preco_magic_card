@@ -1,0 +1,31 @@
+# Ambiente virtual Python
+venv/
+env/
+.venv/
+
+# Cache do Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# IDEs e editores
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Arquivos de dados sensíveis ou gerados
+excel/lista_completa_cartas_magic_com_edicao.xlsx
+excel/cartas_magic_output.xlsx
+
+# Logs
+*.log
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
