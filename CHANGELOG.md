@@ -5,49 +5,56 @@ Todas as mudanças notáveis neste projeto serão documentadas neste arquivo.
 O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/),
 e este projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
-## [v1.0-legacy] - 2026-09-15
+---
 
-### 📌 Status
-- **Versão legada** - Funcionalidade de scraping quebrada devido a alterações no layout do LigaMagic
-- Marca o ponto de partida para refatoração completa
+## 🚀 Versões Ativas
 
-### ✅ Funcionalidades
-- Extração de preços do LigaMagic via Selenium
-- Cálculo automático de taxas do Mercado Livre (11.5% + R$5,00 para valores < R$79,00)
-- Geração de relatório em Excel com informações detalhadas das cartas
-- Suporte a múltiplas edições por carta
-- Captura de: nome (PT/EN), edição, artista, raridade e preço médio
+### [1.0.1] - 2026-09-16
 
-### 🔧 Técnicas
-- Web scraping com Selenium WebDriver
-- Processamento de dados com Pandas
-- Leitura/escrita de arquivos Excel (.xlsx)
-- Navegação em modo headless
+#### ✨ Funcionalidades (Features)
+- **Pipeline de Scraping com Playwright:** Migração completa do Selenium para o Playwright, resultando em execução mais rápida, estável e com melhor manejo de esperas assíncronas.
+- **Extração Polimórfica de Edições:** Lógica inteligente que detecta automaticamente se a carta possui múltiplas edições (interage com o slider) ou se é uma edição única (extrai diretamente da tela principal).
+- **Engenharia de Dados com Regex:** Implementação de expressão regular para separar dinamicamente a string da edição (ex: "Sexta Edição Classica (1999)") em duas colunas distintas: `edicao` (nome) e `ano` (inteiro).
+- **Sanitização de Tipos de Dados:** Conversão robusta de strings de moeda brasileira (ex: `"R$ 1.023,00"`) para o tipo `float` (`1023.00`), permitindo cálculos matemáticos e ordenação no Pandas.
+- **Motor de Regras de Negócio (Mercado Livre):** Cálculo automático e preciso do preço de venda sugerido (11,5% de comissão para valores $\ge$ R$ 79,00; 11,5% + taxa fixa de R$ 5,00 para valores $<$ R$ 79,00).
+- **Merge Inteligente (ETL):** Fusão dos dados raspados com a planilha original do usuário, preservando todas as colunas de entrada e enriquecendo-as com os dados de mercado.
+- **Automação de LGPD:** Clique automático e seguro no banner de cookies, com verificação de existência para evitar `TimeoutError`.
 
-### 📦 Dependências Principais
-- selenium==4.6.1
-- pandas==1.5.2
-- webdriver-manager==3.8.5
-- numpy==1.23.5
-- openpyxl==3.0.10
+#### 🛡️ Resiliência e Tratamento de Erros
+- **Padrão `.all()` do Playwright:** Substituição de loops `while True` baseados em índices frágeis por iteração direta sobre a lista de elementos, eliminando erros `TargetClosedError` e `Timeout`.
+- **Fallback de Nomes:** Se o XPath específico para o nome da carta falhar, o sistema usa silenciosamente os nomes fornecidos no arquivo Excel de entrada como backup.
+- **Isolamento de Falhas:** Cada campo extraído possui seu próprio bloco de tratamento de erro. Se um campo falhar, o script registra o erro, preenche com "N/A" e continua, em vez de abortar a execução total.
 
-### ⚠️ Problemas Conhecidos
-- Seletores CSS/XPath desatualizados devido a mudanças no layout do LigaMagic
-- Necessária refatoração completa do módulo de scraping
+#### 🐛 Correções (Bug Fixes)
+- **Compatibilidade de Merge:** Resolvido conflito de chaves causado por variações de digitação (ex: "Máscara de Mercádia" no input vs "Máscaras de Mercádia" no site) através de normalização de strings.
+- **Limpeza de Chaves:** Aplicação de `.str.strip()` nas colunas de merge para evitar falhas silenciosas causadas por espaços em branco acidentais.
+- **Otimização de Timeout:** Redução do timeout de espera por elementos de nome de 30s para 3s, acelerando drasticamente o fallback.
+
+#### 🔧 Refatoração e Higiene do Projeto
+- **Padronização do Entry Point:** Renomeado `teste_rapido.py` para `magic_preco_medio.py`, estabelecendo o nome definitivo do script principal.
+- **Limpeza de Código Morto:** Removidos arquivos obsoletos e legados (`teste.py`, `magic_preco_medio.ipynb`, versões antigas do script) para reduzir ruído no repositório.
+- **Proteção de Dados:** Atualizado o `.gitignore` para ignorar automaticamente os arquivos de saída gerados (`precos_capturados.xlsx`, `cartas_com_precos_atualizados.xlsx`), mantendo versionado apenas o template de entrada.
+- **Documentação de Nível Profissional:** Reescrita completa do `README.md` e `CHANGELOG.md` com badges, estrutura de projeto, regras de negócio detalhadas e guias de instalação.
+- **Qualidade de Código:** Aplicação de PEP 8, adição de Type Hints e Docstrings no estilo Google em todas as funções para melhorar a legibilidade e manutenção futura.
 
 ---
 
-## [v0.1-alpha] - 2022-11-15
+## 📜 Histórico (Versões Depreciadas)
 
-### 🚀 Primeiro Lançamento
-- Implementação inicial do scraper
-- Cálculo básico de precificação
-- Exportação para Excel
-- Arquivo de exemplo com 11 cartas
+> ⚠️ **Atenção:** As versões abaixo representam a base de código legada (Selenium) e não recebem mais atualizações. Elas são mantidas apenas para referência histórica do ponto de partida da refatoração.
+
+### [v1.0-legacy] - 2026-09-15
+- **Status:** Arquivado. Funcionalidade de scraping quebrada devido a alterações não anunciadas no layout do DOM do LigaMagic.
+- **Tecnologias:** Selenium WebDriver 4.6.1, Pandas 1.5.2, WebDriver Manager 3.8.5.
+- **Funcionalidades Originais:** Extração básica de preços, cálculo de taxas do ML e geração de relatório único em Excel.
+
+### [v0.1-alpha] - 2022-11-15
+- **Status:** Arquivado.
+- **Descrição:** Primeiro lançamento conceitual do projeto com implementação inicial do scraper, cálculo básico de precificação e arquivo de exemplo com 11 cartas.
 
 ---
 
-## Links
-
-- [v1.0-legacy](https://github.com/alan-vieira/preco_magic_card/tree/v1.0-legacy)
-- [Releases](https://github.com/alan-vieira/preco_magic_card/releases)
+## 🔗 Links Úteis
+- [Releases no GitHub](https://github.com/alan-vieira/preco_magic_card/releases)
+- [Branch v1.0.1](https://github.com/alan-vieira/preco_magic_card/tree/v1.0.1)
+- [Branch v1.0-legacy](https://github.com/alan-vieira/preco_magic_card/tree/v1.0-legacy)
