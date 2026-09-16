@@ -1,43 +1,42 @@
-# 🃏 Magic Preço Médio: Automação de Precificação & Scraping
+# 🃏 Magic Preço Médio
 
-[![GitHub release](https://img.shields.io/github/release/alan-vieira/preco_magic_card.svg)](https://github.com/alan-vieira/preco_magic_card/releases)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
-[![Playwright 1.47+](https://img.shields.io/badge/playwright-1.47+-green.svg)](https://playwright.dev/python/)
+[![Version](https://img.shields.io/badge/version-1.0.2-blue.svg)](https://github.com/alan-vieira/preco_magic_card/releases)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.md)
+[![Python](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
+[![Playwright](https://img.shields.io/badge/playwright-1.47+-green.svg)](https://playwright.dev/python/)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Imports: isort](https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336)](https://pycqa.github.io/isort/)
+[![Linting: pylint](https://img.shields.io/badge/linting-pylint-yellowgreen)](https://www.pylint.org/)
 
-> Sistema de inteligência de mercado para precificação de cartas de Magic: The Gathering
-
----
+Sistema de inteligência de mercado para precificação de cartas de Magic: The Gathering.
 
 ## 📖 Visão Geral
 
 Este projeto automatiza a coleta de preços médios de cartas de **Magic: The Gathering** no site **LigaMagic** e processa esses dados para gerar uma estratégia de precificação competitiva no **Mercado Livre**, considerando automaticamente as taxas de comissão da plataforma.
 
-### 🎯 Objetivo
+## 🎯 Objetivo
 
 - Extrair preços de referência do mercado brasileiro (LigaMagic)
 - Calcular preços de venda otimizados para o Mercado Livre
-- Gerar relatórios detalhados com informações de edição, artista e raridade
-
----
+- Gerar relatórios detalhados com informações de edição, artista, raridade e ano
 
 ## 🚀 Funcionalidades
 
 - **🔍 Web Scraping Inteligente**: Navegação automatizada com **Playwright** para extração de dados em tempo real
-- **💰 Cálculo Automático de Taxas**: Aplicação das comissões do Mercado Livre (11.5% + taxa fixa quando aplicável)
-- **📊 Pipeline de Dados Completo**:
+- 💰 **Cálculo Automático de Taxas**: Aplicação das comissões do Mercado Livre (11.5% + taxa fixa quando aplicável)
+- 📊 **Pipeline de Dados Completo**:
   - Leitura de arquivos Excel (.xlsx)
   - Processamento com Pandas
-  - Exportação de relatórios consolidados (3 arquivos de saída)
-- **🎨 Informações Detalhadas**: Captura de edição, artista, raridade e valores de mercado
-- **🏷️ Separação Inteligente**: Separação automática de edição e ano via Regex
-- **🔄 Merge Inteligente**: Fusão resiliente com planilha original, lidando com variações de formato
-
----
+  - Separação automática de edição e ano via Regex
+  - Merge inteligente com planilha original
+  - Exportação de relatórios consolidados
+- 🎨 **Informações Detalhadas**: Captura de edição, artista, raridade e valores de mercado
+- 🛡️ **Resiliência**: Fallback automático para cartas de edição única e tratamento de erros por campo
+- ✨ **Código de Qualidade**: Formatação PEP 8, Type Hints e Docstrings Google Style
 
 ## 📂 Estrutura do Projeto
 
-```
+```text
 preco_magic_card/
 ├── excel/                          # Pasta de dados
 │   ├── lista_cartas_magic_com_edicao.xlsx    # Arquivo de entrada (versionado)
@@ -50,20 +49,13 @@ preco_magic_card/
 ├── LICENSE.md                      # Licença MIT
 ├── .gitignore                      # Arquivos ignorados pelo Git
 └── img/                            # Assets visuais
-    ├── gif_rapido.gif              # Demonstração animada
-    ├── lista_cartas.JPG            # Exemplo de entrada
-    └── saida_cartas.JPG            # Exemplo de saída
 ```
-
----
 
 ## 🔧 Pré-requisitos
 
 - **Python 3.9** ou superior
-- **Google Chrome** instalado
+- **Google Chrome** instalado (usado pelo Playwright)
 - **Conexão com internet** (para scraping do LigaMagic)
-
----
 
 ## 📦 Instalação
 
@@ -77,12 +69,12 @@ cd preco_magic_card
 ### 2. Crie e ative um ambiente virtual (recomendado)
 
 ```bash
-python -m venv venv
-
 # Windows
+python -m venv venv
 venv\Scripts\activate
 
 # Linux/Mac
+python3 -m venv venv
 source venv/bin/activate
 ```
 
@@ -97,8 +89,6 @@ pip install -r requirements.txt
 ```bash
 playwright install chromium
 ```
-
----
 
 ## 🔧 Como Usar
 
@@ -122,108 +112,134 @@ python magic_preco_medio.py
 
 ### 3. Acompanhe a execução
 
-O script exibirá no console o progresso da extração (navegador visível por padrão - `headless=False`):
+O script exibirá no console o progresso da extração (o navegador abrirá visivelmente, pois `headless=False`):
 
-```
+```text
 ============================================================
 Processando: Tutor Vampírico (Vampiric Tutor)
 ============================================================
 Acessando: Tutor Vampírico (Vampiric Tutor)...
-🔍 Encontrados 5 botões de edição no slider.
-✅ Tutor Vampírico | Sexta Edição Clássica | R$ 281,35
-✅ Tutor Vampírico | O Legado de Urza | R$ 234,50
+🔍 Encontrados 17 botões de edição no slider.
+✅ Tutor Vampírico | Sexta Edição Classica (1999) | R$ 415,62
 ...
-============================================================
-
-Total de registros capturados: 52
+✅ 17 edições capturadas para Tutor Vampírico
 ```
 
 ### 4. Resultado
 
-Ao final, **3 arquivos** serão gerados/atualizados na pasta `excel/`:
+Ao final, dois arquivos serão gerados em `excel/`:
 
-| Arquivo | Descrição |
-|---------|-----------|
-| `precos_capturados.xlsx` | **Dados brutos** - 52 registros com todas as edições capturadas (nome PT/EN, edição completa, raridade, artista, preço, preco_float, valor_ml) |
-| `cartas_com_precos_atualizados.xlsx` | **Arquivo final** - Merge inteligente com a planilha original (11 cartas × edições), colunas: nome_portugues, nome_ingles, edicao, ano, artista, raridade, valor_medio, valor_ml |
-| `lista_cartas_magic_com_edicao.xlsx` | **Entrada** - Mantido versionado (não modificado) |
+**`precos_capturados.xlsx`** — Dados brutos com todas as edições encontradas (52 registros no total):
 
----
+| Coluna | Descrição |
+|--------|-----------|
+| `nome_portugues` | Nome em português |
+| `nome_ingles` | Nome em inglês |
+| `edicao_completa` | Edição completa (com ano) |
+| `edicao` | Edição (sem ano, extraída via Regex) |
+| `ano` | Ano de lançamento (extraído via Regex) |
+| `raridade` | Raridade da carta |
+| `artista` | Artista da ilustração |
+| `preco` | Preço formatado (R$) |
+| `preco_float` | Preço numérico |
+| `valor_ml` | Preço com comissão ML |
+
+**`cartas_com_precos_atualizados.xlsx`** — Merge com sua lista original (11 registros, apenas a edição correspondente):
+
+| Coluna | Descrição |
+|--------|-----------|
+| `nome_portugues` | Nome em português |
+| `nome_ingles` | Nome em inglês |
+| `edicao` | Edição (sem ano) |
+| `edicao_completa` | Edição completa (com ano) |
+| `ano` | Ano de lançamento |
+| `raridade` | Raridade |
+| `artista` | Artista |
+| `preco` | Preço formatado |
+| `preco_float` | Preço numérico |
+| `valor_ml` | Preço com comissão ML |
 
 ## 🧮 Lógica de Precificação
 
 O cálculo do preço de venda no Mercado Livre segue a seguinte regra:
 
 ### Para valores ≥ R$ 79,00:
+
 ```
 valor_ml = valor_medio + (valor_medio × 0.115)
 ```
 
 ### Para valores < R$ 79,00:
+
 ```
 valor_ml = valor_medio + (valor_medio × 0.115) + 5.00
 ```
 
 **Onde:**
-- `valor_medio`: Preço médio extraído do LigaMagic
+- `valor_medio`: Preço médio extraído do LigaMagic (`preco_float`)
 - `valor_ml`: Preço sugerido para venda no Mercado Livre
 
-### Exemplo de Saída (cartas_com_precos_atualizados.xlsx)
+### Exemplo de Saída
 
-| nome_portugues | nome_ingles | edicao | ano | artista | raridade | valor_medio | valor_ml |
-|---|---|---|---|---|---|---|---|
-| Tutor Vampírico | Vampiric Tutor | Sexta Edição Clássica | 1999 | Gary Leach | Rara | 281.35 | 313.71 |
-| Desenterrar | Unearth | O Legado de Urza | 1999 | Don Hazeltine | Comum | 4.56 | 10.11 |
-
----
-
-## 🏷️ Separação de Edição e Ano (Regex)
-
-O script separa automaticamente o nome da edição do ano de lançamento usando expressão regular:
-
-**Entrada:** `"Sexta Edição Clássica (1999)"`  
-**Saída:** `edicao = "Sexta Edição Clássica"`, `ano = 1999`
-
-**Regex utilizado:** `r'\((\d{4})\)\s*$'`
-
-Isso permite o merge inteligente mesmo quando a planilha original contém apenas o nome da edição sem o ano.
-
----
+| nome_portugues | edicao | preco | preco_float | valor_ml |
+|---|---|---|---|---|
+| Tutor Vampírico | Sexta Edição Classica | R$ 415,62 | 415.62 | 463.42 |
+| Desenterrar | O Legado de Urza | R$ 18,83 | 18.83 | 26.00 |
 
 ## ⚙️ Tecnologias Utilizadas
 
 | Tecnologia | Versão | Uso |
 |---|---|---|
 | Python | 3.9+ | Linguagem principal |
-| **Playwright** | **1.47+** | **Automação de navegador (substituiu Selenium)** |
-| Pandas | 2.2.3 | Manipulação de dados |
+| Playwright | 1.47+ | Automação de navegador (substituiu o Selenium) |
+| Pandas | 2.2.3 | Manipulação de dados e merge |
 | OpenPyXL | 3.1.5 | Leitura/escrita de arquivos Excel |
-| NumPy | 1.23.5+ | Operações numéricas (dependência do Pandas) |
+| Black | 24.0+ | Formatação automática de código |
+| isort | 5.13+ | Ordenação de imports |
+| Pylint | 3.0+ | Análise estática de código |
 
----
+## 🔍 Qualidade de Código
+
+Este projeto segue rigorosamente os padrões de qualidade da indústria:
+
+- **PEP 8**: Formatação padrão do Python
+- **Black**: Formatação automática e consistente
+- **isort**: Ordenação inteligente de imports
+- **Pylint**: Análise estática para detectar code smells
+- **Type Hints**: Anotações de tipo em todas as funções
+- **Docstrings**: Documentação no estilo Google em todas as funções
+
+### Verificação de Qualidade
+
+```bash
+# Formatar código
+black magic_preco_medio.py
+
+# Ordenar imports
+isort magic_preco_medio.py
+
+# Analisar qualidade
+python -m pylint magic_preco_medio.py
+```
 
 ## ⚠️ Importante
 
-- **Tempo de execução**: O script inclui delays aleatórios entre requisições para não sobrecarregar o servidor do LigaMagic
-- **Atualizações do site**: O LigaMagic pode alterar seu layout, o que pode exigir atualização dos seletores CSS/XPath
-- **Modo visível**: O navegador roda com `headless=False` por padrão (visível). Para modo headless, altere `headless=True` no código
-- **Duplicatas**: O script remove cartas duplicadas (mesmo nome português), mantendo apenas a primeira ocorrência
-- **Arquivos de saída**: `precos_capturados.xlsx` e `cartas_com_precos_atualizados.xlsx` são gerados automaticamente e estão no `.gitignore`
-
----
+- **Tempo de execução**: O script inclui delays para não sobrecarregar o servidor do LigaMagic.
+- **Atualizações do site**: O LigaMagic pode alterar seu layout, o que pode exigir atualização dos seletores.
+- **Headless mode**: O navegador roda em modo visível (`headless=False`) por padrão para facilitar o acompanhamento.
+- **Duplicatas**: O script remove cartas duplicadas (mesmo nome português), mantendo apenas a primeira ocorrência.
+- **Fallback**: Se o XPath do nome falhar, o script usa os nomes da lista original como backup.
 
 ## 📚 Licença
 
 Este projeto está sob a licença MIT. Veja o arquivo [LICENSE.md](LICENSE.md) para mais detalhes.
-
----
 
 ## 👤 Autor
 
 **Alan Vieira** — *Engenheiro de Telecomunicações & Especialista em Dados*
 
 - [LinkedIn](https://www.linkedin.com/in/alansilvavieira)
-- [GitHub Portfólio](https://github.com/alan-vieira)
+- [GitHub](https://github.com/alan-vieira)
 
 ---
 
