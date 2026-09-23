@@ -5,6 +5,19 @@ Todas as mudanças notáveis neste projeto serão documentadas neste arquivo.
 O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/),
 e este projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
+## [1.0.3] - 2026-09-23
+
+### 🛠️ Corrigido
+- Ajuste no type hint da função de cálculo de comissão para refletir corretamente o retorno `float`.
+
+### ✨ Melhorado
+- Estrutura do script principal encapsulada em função `main()` com bloco `if __name__ == "__main__":` para evitar execução acidental em imports.
+- Modernização dos caminhos de arquivos utilizando `pathlib.Path` no lugar de strings literais.
+- Refinamento no tratamento de fallback de nomes de cartas e mensagens de log.
+
+###  Documentação
+- README.md e CHANGELOG.md revisados para refletir o amadurecimento do projeto e as boas práticas aplicadas.
+
 ## [1.0.2] - 2026-09-16
 
 ### ✨ Qualidade de Código (Code Quality)

@@ -66,5 +66,5 @@ debug_*.png
 # Ignorar arquivos Excel de SAÍDA (gerados pelo script)
 excel/precos_capturados.xlsx
 excel/cartas_com_precos_atualizados.xlsx
-
+excel/lista_completa_cartas_magic_com_edicao.xlsx
 # MANTER versionado: excel/lista_cartas_magic_com_edicao.xlsx (arquivo de entrada)

@@ -1,6 +1,6 @@
 # 🃏 Magic Preço Médio
 
-[![Version](https://img.shields.io/badge/version-1.0.2-blue.svg)](https://github.com/alan-vieira/preco_magic_card/releases)
+[![Version](https://img.shields.io/badge/version-1.0.3-blue.svg)](https://github.com/alan-vieira/preco_magic_card/releases)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.md)
 [![Python](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
 [![Playwright](https://img.shields.io/badge/playwright-1.47+-green.svg)](https://playwright.dev/python/)
@@ -112,7 +112,7 @@ python magic_preco_medio.py
 
 ### 3. Acompanhe a execução
 
-O script exibirá no console o progresso da extração (o navegador abrirá visivelmente, pois `headless=False`):
+O script exibirá no console o progresso da extração (o navegador roda em segundo plano, pois `headless=True`, otimizando o desempenho):
 
 ```text
 ============================================================

@@ -1,6 +1,9 @@
+"""
+Script para automatizar a coleta de preços médios de cartas de Magic: The Gathering
+no site LigaMagic e processar os dados para precificação no Mercado Livre.
+"""
 import re
 
-import numpy as np
 import pandas as pd
 from playwright.sync_api import sync_playwright
 
@@ -11,8 +14,24 @@ def acessar_site(nome_portugues: str, nome_ingles: str):
     inicia a extração de dados.
     """
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=False)
-        page = browser.new_page()
+        browser = p.chromium.launch(
+            headless=True,
+            args=[
+                "--disable-blink-features=AutomationControlled",
+                "--disable-dev-shm-usage",
+                "--disable-gpu",
+                "--disable-extensions",
+                ]
+            )
+
+        context = browser.new_context(
+            viewport={'width': 1920, 'height': 1080},
+            user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) \
+                AppleWebKit/537.36 (KHTML, like Gecko) \
+                    Chrome/120.0.0.0 Safari/537.36'
+        )
+
+        page = context.new_page()
 
         url = f"https://www.ligamagic.com/?view=cards/card&card={nome_ingles}&aux={nome_portugues}"
         print(f"Acessando: {nome_portugues} ({nome_ingles})...")
@@ -61,7 +80,7 @@ def pegar_dados_cartas(page, nome_pt_fallback, nome_en_fallback):
 
         # 2. Artista
         try:
-            artista = page.locator('//*[@id="details-screen-artist"]/a').inner_text()
+            artista = page.locator("#details-screen-artist a").inner_text()
         except Exception:
             artista = "N/A"
 
@@ -76,18 +95,18 @@ def pegar_dados_cartas(page, nome_pt_fallback, nome_en_fallback):
         # 4. Preço
         try:
             preco_medio = page.locator(
-                'xpath=//*[@id="container-price-mkp-card"]/div[2]/div[2]/div[2]/div'
-            ).inner_text()
+                '//*[@id="container-price-mkp-card"]/div[2]/div[2]/div[2]/div'
+            ).inner_text(timeout=3000)  # Espera no máximo 3 segundos
         except Exception:
             preco_medio = "N/A"
 
         # 5. Nomes (Tenta extrair, usa fallback se falhar)
         try:
             nome_por = page.locator(
-                "xpath=/html/body/main/div[1]/div[3]/div[2]/div/div/div[2]/div[1]/div[1]"
+                " .item-name"
             ).inner_text(timeout=3000)
             nome_ing = page.locator(
-                "xpath=/html/body/main/div[1]/div[3]/div[2]/div/div/div[2]/div[1]/div[2]"
+                " .item-name-en"
             ).inner_text(timeout=3000)
         except Exception:
             nome_por = nome_pt_fallback
@@ -105,7 +124,7 @@ def pegar_dados_cartas(page, nome_pt_fallback, nome_en_fallback):
     # --- LÓGICA PRINCIPAL ---
     if len(botoes_edicao) == 0:
         print(
-            f"   [Info] Apenas 1 edição encontrada (sem slider). Extraindo dados da tela principal."
+            "[Info] Apenas 1 edição encontrada (sem slider). Extraindo dados da tela principal."
         )
         dados = extrair_dados_da_tela_atual()
         dados_coletados.append(dados)
@@ -196,6 +215,7 @@ def separar_edicao_ano(edicao_completa):
 todos_os_dados = []
 
 cartas_df = pd.read_excel("excel/lista_cartas_magic_com_edicao.xlsx")
+
 cartas_df = cartas_df.drop_duplicates(
     subset="nome_portugues", keep="first"
 ).reset_index(drop=True)
@@ -278,5 +298,5 @@ if todos_os_dados:
 
     # Salvar arquivo final com merge
     cartas_final_df.to_excel("excel/cartas_com_precos_atualizados.xlsx", index=False)
-    print(f"Arquivo final salvo em excel/cartas_com_precos_atualizados.xlsx")
+    print("Arquivo final salvo em excel/cartas_com_precos_atualizados.xlsx")
     print(f"Total de registros: {len(cartas_final_df)}")
