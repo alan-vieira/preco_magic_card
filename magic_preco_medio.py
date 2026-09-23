@@ -2,6 +2,7 @@
 Script para automatizar a coleta de preços médios de cartas de Magic: The Gathering
 no site LigaMagic e processar os dados para precificação no Mercado Livre.
 """
+
 import re
 import pandas as pd
 from playwright.sync_api import sync_playwright
@@ -20,14 +21,14 @@ def acessar_site(nome_portugues: str, nome_ingles: str):
                 "--disable-dev-shm-usage",
                 "--disable-gpu",
                 "--disable-extensions",
-                ]
-            )
+            ],
+        )
 
         context = browser.new_context(
-            viewport={'width': 1920, 'height': 1080},
-            user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) \
+            viewport={"width": 1920, "height": 1080},
+            user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) \
                 AppleWebKit/537.36 (KHTML, like Gecko) \
-                    Chrome/120.0.0.0 Safari/537.36'
+                    Chrome/120.0.0.0 Safari/537.36",
         )
 
         page = context.new_page()
@@ -49,7 +50,7 @@ def acessar_site(nome_portugues: str, nome_ingles: str):
             # CORREÇÃO AQUI: Passando os nomes como argumentos para o fallback
             dados = pegar_dados_cartas(page, nome_portugues, nome_ingles)
             return dados
-        except Exception as e:
+        except Exception as e: # pylint: disable=broad-exception-caught
             print(f"❌ Erro crítico ao processar {nome_portugues}: {e}")
             return []
         finally:
@@ -74,13 +75,13 @@ def pegar_dados_cartas(page, nome_pt_fallback, nome_en_fallback):
             edicao = (
                 page.locator("div.name-edition").inner_text().replace("\n", " ").strip()
             )
-        except Exception:
+        except Exception: # pylint: disable=broad-exception-caught
             edicao = "Edição Única"
 
         # 2. Artista
         try:
             artista = page.locator("#details-screen-artist a").inner_text()
-        except Exception:
+        except Exception: # pylint: disable=broad-exception-caught
             artista = "N/A"
 
         # 3. Raridade
@@ -88,26 +89,24 @@ def pegar_dados_cartas(page, nome_pt_fallback, nome_en_fallback):
             raridade = page.locator(
                 '//*[@id="details-screen-rarity"]/a[1]'
             ).inner_text()
-        except Exception:
+        except Exception: # pylint: disable=broad-exception-caught
             raridade = "N/A"
 
         # 4. Preço
         try:
             preco_medio = page.locator(
                 '//*[@id="container-price-mkp-card"]/div[2]/div[2]/div[2]/div'
-            ).inner_text(timeout=3000)  # Espera no máximo 3 segundos
-        except Exception:
+            ).inner_text(
+                timeout=3000
+            )  # Espera no máximo 3 segundos
+        except Exception: # pylint: disable=broad-exception-caught
             preco_medio = "N/A"
 
         # 5. Nomes (Tenta extrair, usa fallback se falhar)
         try:
-            nome_portugues = page.locator(
-                " .item-name"
-            ).inner_text(timeout=3000)
-            nome_ingles = page.locator(
-                " .item-name-en"
-            ).inner_text(timeout=3000)
-        except Exception:
+            nome_portugues = page.locator(" .item-name").inner_text(timeout=3000)
+            nome_ingles = page.locator(" .item-name-en").inner_text(timeout=3000)
+        except Exception: # pylint: disable=broad-exception-caught
             nome_portugues = nome_pt_fallback
             nome_ingles = nome_en_fallback
 
@@ -141,9 +140,10 @@ def pegar_dados_cartas(page, nome_pt_fallback, nome_en_fallback):
 
                 dados = extrair_dados_da_tela_atual()
                 dados_coletados.append(dados)
-                print(f'✅ {dados["nome_portugues"]} | {dados["edicao"]} | {dados["preco"]}')
-
-            except Exception as e:
+                print(
+                    f'✅ {dados["nome_portugues"]} | {dados["edicao"]} | {dados["preco"]}'
+                )
+            except Exception as e: # pylint: disable=broad-exception-caught
                 print(f"⚠️ Erro na edição {indice}: {e}")
                 continue
 
@@ -161,7 +161,8 @@ def limpar_e_converter_preco(df):
     # Remove os pontos de milhar e troca a vírgula decimal por ponto
     preco_limpo = preco_limpo.str.replace(".", "", regex=False).str.replace(",", ".")
 
-    # Converte para número. O 'errors="coerce"' transforma 'N/A' ou textos inválidos em NaN (Not a Number)
+    # Converte para número. O argumento errors="coerce" transforma 'N/A'
+    # ou textos inválidos em NaN (Not a Number).
     df["preco_float"] = pd.to_numeric(preco_limpo, errors="coerce")
 
     return df
