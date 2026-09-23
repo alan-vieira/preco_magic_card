@@ -47,8 +47,7 @@ preco_magic_card/
 ├── README.md                       # Documentação
 ├── CHANGELOG.md                    # Histórico de mudanças
 ├── LICENSE.md                      # Licença MIT
-├── .gitignore                      # Arquivos ignorados pelo Git
-└── img/                            # Assets visuais
+└── .gitignore                      # Arquivos ignorados pelo Git
 ```
 
 ## 🔧 Pré-requisitos
@@ -226,7 +225,7 @@ python -m pylint magic_preco_medio.py
 
 - **Tempo de execução**: O script inclui delays para não sobrecarregar o servidor do LigaMagic.
 - **Atualizações do site**: O LigaMagic pode alterar seu layout, o que pode exigir atualização dos seletores.
-- **Headless mode**: O navegador roda em modo visível (`headless=False`) por padrão para facilitar o acompanhamento.
+- **Headless mode**: O navegador roda em segundo plano (`headless=True`) por padrão, otimizando o desempenho e evitando interferência visual durante a execução.
 - **Duplicatas**: O script remove cartas duplicadas (mesmo nome português), mantendo apenas a primeira ocorrência.
 - **Fallback**: Se o XPath do nome falhar, o script usa os nomes da lista original como backup.
 

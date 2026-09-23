@@ -14,6 +14,7 @@ e este projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR
 - Estrutura do script principal encapsulada em função `main()` com bloco `if __name__ == "__main__":` para evitar execução acidental em imports.
 - Modernização dos caminhos de arquivos utilizando `pathlib.Path` no lugar de strings literais.
 - Refinamento no tratamento de fallback de nomes de cartas e mensagens de log.
+- Remoção da pasta `img/` e seus assets visuais obsoletos, simplificando a estrutura do projeto.
 
 ###  Documentação
 - README.md e CHANGELOG.md revisados para refletir o amadurecimento do projeto e as boas práticas aplicadas.

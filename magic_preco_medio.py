@@ -3,7 +3,6 @@ Script para automatizar a coleta de preços médios de cartas de Magic: The Gath
 no site LigaMagic e processar os dados para precificação no Mercado Livre.
 """
 import re
-
 import pandas as pd
 from playwright.sync_api import sync_playwright
 
@@ -102,19 +101,19 @@ def pegar_dados_cartas(page, nome_pt_fallback, nome_en_fallback):
 
         # 5. Nomes (Tenta extrair, usa fallback se falhar)
         try:
-            nome_por = page.locator(
+            nome_portugues = page.locator(
                 " .item-name"
             ).inner_text(timeout=3000)
-            nome_ing = page.locator(
+            nome_ingles = page.locator(
                 " .item-name-en"
             ).inner_text(timeout=3000)
         except Exception:
-            nome_por = nome_pt_fallback
-            nome_ing = nome_en_fallback
+            nome_portugues = nome_pt_fallback
+            nome_ingles = nome_en_fallback
 
         return {
-            "nome_pt": nome_por,
-            "nome_en": nome_ing,
+            "nome_portugues": nome_portugues,
+            "nome_ingles": nome_ingles,
             "edicao": edicao,
             "raridade": raridade,
             "artista": artista,
@@ -128,7 +127,7 @@ def pegar_dados_cartas(page, nome_pt_fallback, nome_en_fallback):
         )
         dados = extrair_dados_da_tela_atual()
         dados_coletados.append(dados)
-        print(f'✅ {dados["nome_pt"]} | {dados["edicao"]} | {dados["preco"]}')
+        print(f'✅ {dados["nome_portugues"]} | {dados["edicao"]} | {dados["preco"]}')
 
     else:
         print(f"🔍 Encontrados {len(botoes_edicao)} botões de edição no slider.")
@@ -142,7 +141,7 @@ def pegar_dados_cartas(page, nome_pt_fallback, nome_en_fallback):
 
                 dados = extrair_dados_da_tela_atual()
                 dados_coletados.append(dados)
-                print(f'✅ {dados["nome_pt"]} | {dados["edicao"]} | {dados["preco"]}')
+                print(f'✅ {dados["nome_portugues"]} | {dados["edicao"]} | {dados["preco"]}')
 
             except Exception as e:
                 print(f"⚠️ Erro na edição {indice}: {e}")
@@ -188,24 +187,24 @@ def comissao_ml(valor_medio) -> int:
     return round(valor_final, 2)
 
 
-def separar_edicao_ano(edicao_completa):
+def separar_edicao_ano(edicao):
     """
     Separa 'Sexta Edição Classica (1999)' em ('Sexta Edição Classica', 1999).
     Se não tiver ano, retorna (edicao, None).
     """
-    if pd.isna(edicao_completa):
-        return (edicao_completa, None)
+    if pd.isna(edicao):
+        return (edicao, None)
 
     # Regex para encontrar (ANO) no final da string
-    match = re.search(r"\((\d{4})\)\s*$", str(edicao_completa))
+    match = re.search(r"\((\d{4})\)\s*$", str(edicao))
 
     if match:
         ano = int(match.group(1))
         # Remove o (ANO) do final e limpa espaços
-        nome_edicao = re.sub(r"\s*\(\d{4}\)\s*$", "", str(edicao_completa)).strip()
+        nome_edicao = re.sub(r"\s*\(\d{4}\)\s*$", "", str(edicao)).strip()
         return (nome_edicao, ano)
     else:
-        return (str(edicao_completa).strip(), None)
+        return (str(edicao).strip(), None)
 
 
 # ==============================================================================
@@ -247,17 +246,8 @@ if todos_os_dados:
 
     cartas_web_df["valor_ml"] = cartas_web_df["preco_float"].apply(comissao_ml)
 
-    # Renomeia as colunas do DataFrame raspado para bater com o original
-    cartas_web_df = cartas_web_df.rename(
-        columns={
-            "nome_pt": "nome_portugues",
-            "nome_en": "nome_ingles",
-            "edicao": "edicao_completa",
-        }
-    )
-
     # Separa edição e ano
-    cartas_web_df[["edicao", "ano"]] = cartas_web_df["edicao_completa"].apply(
+    cartas_web_df[["edicao", "ano"]] = cartas_web_df["edicao"].apply(
         lambda x: pd.Series(separar_edicao_ano(x))
     )
 
@@ -288,7 +278,7 @@ if todos_os_dados:
     print("\n--- Top 5 Cartas/Edições mais caras ---")
     print(
         cartas_web_df.sort_values("preco_float", ascending=False)[
-            ["nome_portugues", "edicao_completa", "preco", "preco_float"]
+            ["nome_portugues", "edicao", "preco", "preco_float"]
         ].head()
     )
 
